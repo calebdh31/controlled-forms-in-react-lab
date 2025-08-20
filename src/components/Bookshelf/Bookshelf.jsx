@@ -8,44 +8,49 @@ const Bookshelf = (props) => {
     ])
     const [newBook, setNewBook] = useState({title: '', author: ''})
     
-    const handleInputChange = (event) => {
-        const { name, value } = event.target
-
-        setNewBook(prev => ({
-            ...prev,
-            [name]: value
-        }))
-        console.log(newBook)
-    }
+    const handleChange = (event) => {
+    setNewBook({...newBook, [event.target.name] : event.target.value})
+  }
     const handleSubmit = (event) => {
         event.preventDefault()
-
-        if (!newBook.title.trim() || !newBook.author.trim())
-            return
-        setBooks(prev)
+        setBooks(prevBook => [...prevBook, newBook])
     }
 
   return (
     <div className="bookshelfDiv">
   <div className="formDiv">
     <h3>Add a Book</h3>
-    <form>
+    <form onSubmit={handleSubmit}>
         <input
         name="title"
         placeholder='Title'
         value={newBook.title}
-        onChange={handleInputChange}
+        onChange={handleChange}
         />
         <input
         name="author"
         placeholder='Author'
         value={newBook.author}
-        onChange={handleInputChange}
+        onChange={handleChange}
         />
         <button type='submit'>Add Book</button>
     </form>
   </div>
-  <div className="bookCardsDiv">{/* Book cards will display here */}</div>
+  <div className="bookCardsDiv">{books.map((book, index)  => (
+    <ul
+    key={index}
+    style={{backgroundColor: "#c0c0c0ff",
+        color: "black"
+    }}
+    >
+    <li>
+        {book.title}
+    </li>
+    <li>
+        {book.author}
+    </li>
+    </ul>
+  ))}</div>
 </div>
   )
 }
